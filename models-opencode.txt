@@ -1,0 +1,38 @@
+# Models run through `opencode` instead of `cursor-agent`. One id per line, in the
+# provider/model form opencode expects.
+#
+# THESE ARE NOT COMPARABLE TO models.txt ON THE SAME AXIS.
+# The whole design rests on holding the harness constant (§10): same system prompt,
+# same tool set, same agent loop. A run through opencode differs from a cursor-agent
+# run in all three, plus the gateway in front of the model. So a difference between
+# `opencode__huawei-modelarts_glm-5.2` and `glm-5.2-high` measures
+# harness + gateway + model together, and cannot be attributed to the model.
+#
+# That comparison is still worth making — it just answers a different question:
+# "is our own setup as good as Cursor's for the same underlying model?" That is a
+# shipping decision, and it is the second framing in §10. State it that way in the
+# report; do not present the two as a single model ranking.
+#
+# Every run records `harness` in metrics.json so the two populations can be
+# separated after the fact, whatever the report ends up saying.
+#
+# BOTH IDS BELOW ARE LIVE. They are two gateway routes to the same underlying model,
+# and both answer `opencode run`. Keeping both is deliberate: they land in separate
+# runs/ directories and score as separate candidates, which is how a difference between
+# the two routes becomes visible instead of being averaged away. Do not prune one on
+# the assumption that it is a typo — check it with
+# `opencode run -m <id> "reply with just the word: ok"` first.
+#
+# Effort parity: cursor's `glm-5.2-high` bakes effort=high into the model id.
+# The opencode equivalent is `--variant high`, set via VARIANT (default: high).
+#
+# `opencode run` needs a TTY. When the sweep redirects its output to a log file the
+# TTY may be gone, in which case it produces no output rather than failing — set PTY=1
+# to wrap the call in `script`. See the note in run-one-opencode.sh. Since the stall
+# watchdog landed this shows up as a run killed at STALL_S with a zero-byte
+# transcript and termination_reason "stalled", rather than a sweep that never returns.
+
+huawei-modelarts/glm-5.2
+vtex-glm/huawei/glm-5.2
+amazon-bedrock/anthropic.claude-sonnet-5
+amazon-bedrock/openai.gpt-5.6-terra

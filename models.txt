@@ -1,0 +1,34 @@
+# Contestants for the spec eval. One model id per line, as accepted by
+# `cursor-agent --model`. Verified against `cursor-agent --list-models`.
+#
+# EFFORT IS NOT HELD CONSTANT ACROSS THESE TWO, AND CANNOT BE.
+# This is a declared limitation, not an oversight — it must appear in the report
+# (§10, §11). The `-high` label does not denote the same relative position on
+# every vendor's ladder:
+#
+#   glm-5.2                  high, max                          → high is the FLOOR
+#   cursor-grok-4.6          low, medium, high, xhigh            → high is mid
+#   claude-sonnet-5-thinking low, medium, high, xhigh, max       → high is mid
+#   gpt-5.6-terra            none, low, medium, high, xhigh, max → high is mid
+#   gemini-3.1-pro           (no effort dimension exposed)       → n/a
+#
+# Consequence: this sweep answers "which setup should I ship", not "which model
+# is better at fixed config". State that in the report and do not compare raw
+# rubric totals as if the configs were equivalent. It bites hardest on exactly the
+# two ids below: `high` is glm's floor and sonnet's midpoint, so sonnet is being
+# asked for less than it can give while glm is at its minimum.
+#
+# Sonnet 5 note: the `-thinking-` family is deliberate. Cursor exposes both
+# `claude-sonnet-5-high` and `claude-sonnet-5-thinking-high`; the former appears
+# to run with thinking off, which would handicap it against a contestant that is
+# reasoning normally at `-high`. Thinking-on is also the model's own API default,
+# so the non-thinking variant is the anomalous choice, not this one.
+#
+# THE LIST IS DELIBERATELY TWO. Gustavo narrowed the field to these ids for every
+# sweep from here on. `cursor-grok-4.6-high`, `gpt-5.6-terra-high` and
+# `gemini-3.1-pro` were contestants on pr-311 and their runs are still under
+# runs/pr-311/ — report.py reads that directory, not this file, so past results
+# are unaffected. Do not re-add them to widen a sweep without asking.
+
+glm-5.2-high
+claude-sonnet-5-thinking-high
