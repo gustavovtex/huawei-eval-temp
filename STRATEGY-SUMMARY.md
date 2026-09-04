@@ -173,7 +173,7 @@ tokens *loaded*, not *verified*, and reads `3/3` even where the same check might
 in about 180s with the same response:
 
 ```
-User: arn:aws:sts::…assumed-role/AWSReservedSSO_SWE_… is not authorized to perform:
+User: arn:aws:sts::…assumed-role/… is not authorized to perform:
 bedrock-mantle:CreateInference … because no identity-based policy allows the action
 ```
 

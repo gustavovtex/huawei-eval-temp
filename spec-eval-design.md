@@ -52,10 +52,10 @@ files overwrite run 1's.
 **With one exception, and it is load-bearing: run 1 does not restore the test files
 the reference itself modified.** Restoring them unconditionally makes run 1
 unpassable for any candidate that legitimately updates a mock. On the first spec, the
-implementation adds a call to `lmClient.listStorefrontRoles()`; the base version of
-`users.test.ts` mocks `lmClient` without that method, so the base test throws
-`TypeError` against *any* correct implementation — the reference included. All three
-runs of one model failed the gate on it while passing 1222 of 1233 tests.
+implementation had to call a client method that did not exist before it; the base version
+of that test file mocks the client without that method, so it throws `TypeError` against
+*any* correct implementation — the reference included. All three runs of one model failed
+the gate on it while passing 1222 of 1233 tests.
 
 The reference's own file list is what makes this safe to concede. It changed those
 same files (17 mock additions), which proves the update is required rather than
@@ -204,7 +204,7 @@ and another finishes naturally, you're comparing a truncated run to a complete
 one. Record it and treat cap-hits as a distinct outcome, not a failure.
 
 **And one of those outcomes is a stall.** A run can stop producing output without
-ending: on pr-311 an opencode run wrote 418 KB in four minutes, stopped at a
+ending: one opencode run wrote 418 KB in four minutes, stopped at a
 `step_finish` waiting on a gateway request that never returned and never timed out,
 and then sat there — its shell eventually killed, the agent process outliving it by
 more than two hours, idle, still holding a worktree registration. Nothing in the chain
